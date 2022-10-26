@@ -16,7 +16,7 @@ namespace ParkingServiceWithTest.Unit.Test
             sut = host.CreateClient();
         }
         [Fact]
-        public async Task Return_200_if_licenseplate_is_parked_correct()
+        public async Task Return_200_if_licenseplate_is_parked()
         {            
             var actual = await sut.GetAsync("/?plate=ab12345&lot=her");
             Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
