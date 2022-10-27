@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ParkingServiceWithTest.Unit.Test
 {
-    internal class MockData
+    internal class TestData
     {
-        public MockData()
+        public TestData()
         {
             Plate = "AB12345";
             Lot = "Home";

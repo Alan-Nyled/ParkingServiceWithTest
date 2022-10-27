@@ -16,7 +16,7 @@ namespace ParkingServiceWithTest.Controllers
         }
 
         [HttpPost("/")]
-        public OkResult RegisterParking(string json) //string plate, string lot, string mail, string phone
+        public OkResult RegisterParking([FromBody] string json) 
         {
             var values = JsonConvert.DeserializeObject<Parking>(json);
            

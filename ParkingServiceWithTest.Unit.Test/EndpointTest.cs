@@ -8,24 +8,36 @@ using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using ParkingServiceWithTest.Models;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ParkingServiceWithTest.Unit.Test
 {
-    public class EndPointTest_Should //: IDisposable
+    public class EndPointTest_Should : IDisposable
     {
-
-        //private readonly HttpClient sut;
-        //public EndPointTest_Should()
-        //{
-        //    var host = new WebApplicationFactory<Program>();
-        //    sut = host.CreateClient();
-        //}
-        [Fact]
-        public void Return_200_when_car_is_parked()
+        private readonly Database sut = new();
+        private readonly TestData data = new();
+        private readonly HttpClient sutHttp;
+        public EndPointTest_Should()
         {
-            var test = new Database();
-            int i = test.Calc();
-            Assert.Equal(6, i);
+            var host = new WebApplicationFactory<Program>();
+            sutHttp = host.CreateClient();
+        }
+
+        [Fact]
+        public async Task Return_200_if_car_is_parked_legal()
+        {
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            await sutHttp.PostAsJsonAsync("/", json);
+            var actual = await sutHttp.GetAsync($"/?plate={data.Plate}&lot={data.Lot}");
+            Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+            sut.DeleteParkings(data.Plate);
+        }
+
+        [Fact]
+        public void Delete_all_parkings_for_specific_car()
+        {        
 
             //MockData data = new();
             //var json = JsonConvert.SerializeObject(data);
@@ -34,20 +46,12 @@ namespace ParkingServiceWithTest.Unit.Test
             //var actual = await sut.PostAsJsonAsync("/", json);
             //Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         }
-    //    [Fact]
-    //    public async Task Return_200_if_car_exists()
-    //    {
-    //    //    //MockData data = new();
-    //    //    //var json = JsonConvert.SerializeObject(data, Formatting.Indented);
-    //    //    //var stringContent = new StringContent(json);
-    //    //    //await sut.PostAsync("/", stringContent);
-    //    //    var actual = await sut.GetAsync("/?plate=AB12345&lot=Home");
-    //    //    Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-    //    }
-    //    //public void Dispose()
-    //    //{
-    //    //    //host.Dispose();
-    //    //    sut.Dispose();
-    //    //}
-   }
+       
+        
+        public void Dispose()
+        {
+            //host.Dispose();
+            sutHttp.Dispose();
+        }
+    }
 }
