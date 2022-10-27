@@ -1,9 +1,13 @@
 ﻿namespace ParkingServiceWithTest.Models
 {
-    public class Database : IDatabase
+    public class Database //: IDatabase
     {
         private static readonly Dictionary<string, Parking> parkings = new();
 
+        public int Calc()
+        {
+            return 4;
+        }
         public void AddParking(Parking parking)
         {
             string key = GenerateKey(parking.Plate, parking.Lot, parking.Date);
