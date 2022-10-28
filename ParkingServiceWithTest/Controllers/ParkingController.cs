@@ -44,10 +44,15 @@ namespace ParkingServiceWithTest.Controllers
 
         }
         [HttpDelete("/")]
-        public void DeleteParkings(string plate)
+        public IActionResult DeleteParkings(string plate)
         {
             Database database = new();
-            database.DeleteParkings(plate);
+            bool result = database.DeleteParkings(plate);
+            if (result)
+            {
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }

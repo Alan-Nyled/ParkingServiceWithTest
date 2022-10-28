@@ -22,7 +22,7 @@ namespace ParkingServiceWithTest.Models
             string key = GenerateKey(plate, lot, date);
             return parkings.GetValueOrDefault(key);
         }
-        public void DeleteParkings(string plate)
+        public bool DeleteParkings(string plate)
         {
             List<string> parkingsToDelete = new();
 
@@ -38,6 +38,8 @@ namespace ParkingServiceWithTest.Models
             {
                 parkings.Remove(key);
             }
+            return true;
+            
         }
 
         private static string GenerateKey(string plate, string lot, DateOnly date)
