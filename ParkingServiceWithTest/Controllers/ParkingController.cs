@@ -33,7 +33,7 @@ namespace ParkingServiceWithTest.Controllers
 
         [HttpGet("/")]
         public IActionResult GetParking(string plate, string lot)
-        {
+        {            
             Database database = new();
             Parking? parking = database.GetParking(plate, lot, Today()); 
             if(parking == null)

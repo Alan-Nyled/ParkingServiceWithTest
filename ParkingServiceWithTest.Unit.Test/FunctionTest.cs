@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ParkingServiceWithTest.Models;
+﻿using ParkingServiceWithTest.Models;
 using Xunit;
 
 namespace ParkingServiceWithTest.Unit.Test
@@ -19,6 +14,7 @@ namespace ParkingServiceWithTest.Unit.Test
             bool response = sut.AddParking(new Parking(data.Plate, data.Lot, data.Date));
             Assert.True(response);
         }
+
         [Fact]
         public void Return_car_if_it_is_parked_legal()
         {
@@ -26,6 +22,20 @@ namespace ParkingServiceWithTest.Unit.Test
             Parking? response = sut.GetParking(data.Plate, data.Lot, data.Date);
             Assert.Equal(data.Plate, response?.Plate);
             sut.DeleteParkings(data.Plate);
+        }
+
+        [Fact]
+        public void Return_NULL_if_car_is_parked_Illegal()
+        {
+            Parking? response = sut.GetParking("", "", data.Date);
+            Assert.Null(response);
+        }
+
+        [Fact]
+        public void Return_true_when_delete_all_parkings_for_specific_car()
+        {
+            bool response = sut.DeleteParkings(data.Plate);
+            Assert.True(response);
         }
     }
 }
