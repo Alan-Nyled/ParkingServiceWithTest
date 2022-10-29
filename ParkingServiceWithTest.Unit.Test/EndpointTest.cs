@@ -11,6 +11,10 @@ using ParkingServiceWithTest.Models;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using ParkingServiceWithTest.Controllers;
 
 namespace ParkingServiceWithTest.Unit.Test
 {
@@ -18,13 +22,15 @@ namespace ParkingServiceWithTest.Unit.Test
     {
         private readonly TestData data = new();
         private readonly WebApplicationFactory<Program> host = new();
+        //private readonly Mock _mock;
         private readonly HttpClient sut;
         public EndPointTest_Should()
         {
             sut = host.CreateClient();
+            //_mock = new Mock();
         }
 
-        [Fact]
+      //  [Fact]
         public async Task Return_200_OK_When_car_is_registred()
         {
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
@@ -35,8 +41,12 @@ namespace ParkingServiceWithTest.Unit.Test
         [Fact]
         public async Task Return_200_OK_if_car_is_parked_legal()
         {
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            await sut.PostAsJsonAsync("/", json);
+            //string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            //await sut.PostAsJsonAsync("/", json);
+            var mock = new Mock<IDatabase>();
+            mock.Setup(x => x.AddParking(new Parking(data.Plate, data.Lot, DateOnly.FromDateTime(DateTime.Now))))
+               .Returns(true);
+
             var actual = await sut.GetAsync($"/?plate={data.Plate}&lot={data.Lot}");
             Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         }
