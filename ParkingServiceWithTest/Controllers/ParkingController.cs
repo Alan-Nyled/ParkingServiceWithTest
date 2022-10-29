@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using Newtonsoft.Json;
 using ParkingServiceWithTest.Models;
 using System.Text.Json.Serialization;
@@ -16,18 +17,26 @@ namespace ParkingServiceWithTest.Controllers
         }
 
         [HttpPost("/")]
-        public OkResult RegisterParking([FromBody] string json) 
+        public IActionResult RegisterParking([FromBody] string json) 
         {
             var values = JsonConvert.DeserializeObject<Parking>(json);
-           
+            
             Parking parking = new(values.Plate, values.Lot, Today())
             {
                 Mail = values.Mail,
                 Phone = values.Phone
             };
+
+            if (String.IsNullOrEmpty(values.Plate))
+            {
+                return BadRequest();
+            }
+
             Database database = new();
             database.AddParking(parking);
             return Ok();
+
+
 
         }
 

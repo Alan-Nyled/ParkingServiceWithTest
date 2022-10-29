@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using ParkingServiceWithTest.Controllers;
+using Microsoft.Extensions.Logging;
 
 namespace ParkingServiceWithTest.Unit.Test
 {
@@ -22,31 +23,33 @@ namespace ParkingServiceWithTest.Unit.Test
     {
         private readonly TestData data = new();
         private readonly WebApplicationFactory<Program> host = new();
-        //private readonly Mock _mock;
         private readonly HttpClient sut;
         public EndPointTest_Should()
         {
             sut = host.CreateClient();
-            //_mock = new Mock();
         }
 
-      //  [Fact]
+        [Fact]
         public async Task Return_200_OK_When_car_is_registred()
         {
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(data);
             var actual = await sut.PostAsJsonAsync("/", json);
             Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         }
 
         [Fact]
+        public async Task Return_400_BadRequest_if_plate_not_provided()
+        {
+            string json = JsonConvert.SerializeObject(new TestData() { Plate = "" });
+            var actual = await sut.PostAsJsonAsync("/", json);
+            Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
+        }
+
+        [Fact]
         public async Task Return_200_OK_if_car_is_parked_legal()
         {
-            //string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            //await sut.PostAsJsonAsync("/", json);
-            var mock = new Mock<IDatabase>();
-            mock.Setup(x => x.AddParking(new Parking(data.Plate, data.Lot, DateOnly.FromDateTime(DateTime.Now))))
-               .Returns(true);
-
+            string json = JsonConvert.SerializeObject(data);
+            await sut.PostAsJsonAsync("/", json);            
             var actual = await sut.GetAsync($"/?plate={data.Plate}&lot={data.Lot}");
             Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         }
@@ -65,8 +68,6 @@ namespace ParkingServiceWithTest.Unit.Test
             var actual = await sut.GetAsync($"/?plate={data.Plate}&lot={data.Lot}");
             Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         }
-
-
         public void Dispose()
         {
             host.Dispose();

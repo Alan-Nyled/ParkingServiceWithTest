@@ -15,9 +15,9 @@ namespace ParkingServiceWithTest.Unit.Test
             Date = DateOnly.FromDateTime(DateTime.Now);
         }
 
-        public string Plate { get; }
-        public string Lot { get; }
-        public DateOnly Date { get; }
+        public string Plate { get; set; }
+        public string Lot { get; set; }
+        public DateOnly Date { get; set; }
         public string? Mail { get; set; }
         public string? Phone { get; set; }
     }
