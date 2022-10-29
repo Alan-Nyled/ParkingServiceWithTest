@@ -16,9 +16,9 @@ namespace ParkingServiceWithTest.Unit.Test
         }
 
         public string Plate { get; set; }
-        public string Lot { get; set; }
-        public DateOnly Date { get; set; }
-        public string? Mail { get; set; }
-        public string? Phone { get; set; }
+        public string Lot { get; }
+        public DateOnly Date { get; }
+        //public string? Mail { get; }
+        //public string? Phone { get;  }
     }
 }
