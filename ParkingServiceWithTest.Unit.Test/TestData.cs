@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ParkingServiceWithTest.Unit.Test
+﻿namespace ParkingServiceWithTest.Unit.Test
 {
     internal class TestData
     {
@@ -18,8 +12,5 @@ namespace ParkingServiceWithTest.Unit.Test
         public string Plate { get; set; }
         public string Lot { get; }
         public DateOnly Date { get; }
-
-        //public string? Mail { get; }
-        //public string? Phone { get;  }
     }
 }

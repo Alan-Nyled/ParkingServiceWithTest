@@ -1,21 +1,8 @@
 using Xunit;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using ParkingServiceWithTest;
 using System.Net;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
-using System.Net.Http.Headers;
-using ParkingServiceWithTest.Models;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using ParkingServiceWithTest.Controllers;
-using Microsoft.Extensions.Logging;
 
 namespace ParkingServiceWithTest.Unit.Test
 {

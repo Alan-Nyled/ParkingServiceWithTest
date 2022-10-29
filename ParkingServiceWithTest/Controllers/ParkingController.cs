@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ParkingServiceWithTest.Models;
-using System.Text.Json.Serialization;
 
 namespace ParkingServiceWithTest.Controllers
 {
